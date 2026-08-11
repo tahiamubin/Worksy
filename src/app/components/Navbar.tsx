@@ -19,6 +19,8 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Projects", href: "/projects", icon: "briefcase" },
   { label: "Tasks", href: "/tasks", icon: "checklist" },
   { label: "Payments", href: "/payments", icon: "credit-card" },
+  { label: "Signup", href: "/signup", icon: "credit-card" },
+
 ];
 
 type NavUser = {
