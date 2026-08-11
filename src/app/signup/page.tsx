@@ -8,15 +8,15 @@ import {
   Form,
   Input,
   Label,
-  ListBox,
+
   TextField,
-  Select,
+
 } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { CgArrangeBack } from "react-icons/cg";
 
 import { FcGoogle } from "react-icons/fc";
-import { HiSparkles } from "react-icons/hi2";
+
 
 export default function SignUpPage() {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -25,6 +25,14 @@ export default function SignUpPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const onSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault()
+          setIsSubmitting(true)
+          const formData = new FormData(e.currentTarget)
+          const user = Object.fromEntries(formData.entries() as unknown as SignUpFormValues)
+          console.log(user)
+  }
 
   return (
     <section className="relative w-full min-h-screen overflow-hidden bg-black">
@@ -88,7 +96,7 @@ export default function SignUpPage() {
             }`}
             style={{ transitionDelay: "300ms" }}
           >
-            <Form>
+            <Form onSubmit={onSubmit}>
               <Fieldset className="w-full">
                 <Fieldset.Legend className="text-white font-bold mb-2 uppercase text-lg">
                   Signup
