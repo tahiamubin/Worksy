@@ -2,67 +2,61 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  FiUsers, 
-  FiBriefcase, 
-  FiCheckCircle, 
+import {
+  FiUsers,
+  FiBriefcase,
+  FiCheckCircle,
   FiDollarSign,
-  FiCalendar,
-  FiClock,
   FiTrendingUp,
-  FiShield,
   FiZap,
   FiCpu,
-  FiBarChart2,
-  FiMail,
-  FiMessageSquare,
-  FiFileText,
-  FiFolder
 } from "react-icons/fi";
 
 export default function FeaturesSection() {
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const features = [
     {
       icon: FiUsers,
       title: "Client Management",
-      description: "Manage all your clients in one place. Store contact info, company details, and project history.",
-      color: "white"
+      description:
+        "Manage all your clients in one place. Store contact info, company details, and project history.",
+      color: "white",
     },
     {
       icon: FiBriefcase,
       title: "Project Management",
-      description: "Track projects from planning to completion. Set budgets, deadlines, and monitor progress.",
-      color: "white"
+      description:
+        "Track projects from planning to completion. Set budgets, deadlines, and monitor progress.",
+      color: "white",
     },
     {
       icon: FiCheckCircle,
       title: "Task Management",
-      description: "Break projects into manageable tasks. Set priorities, due dates, and track completion.",
-      color: "white"
+      description:
+        "Break projects into manageable tasks. Set priorities, due dates, and track completion.",
+      color: "white",
     },
     {
       icon: FiDollarSign,
       title: "Payment Tracking",
-      description: "Monitor project budgets, track received payments, and manage outstanding balances.",
-      color: "white"
+      description:
+        "Monitor project budgets, track received payments, and manage outstanding balances.",
+      color: "white",
     },
     {
       icon: FiCpu,
       title: "AI Project Planner",
-      description: "Generate project tasks instantly from a description. Save hours of planning time.",
-      color: "white"
+      description:
+        "Generate project tasks instantly from a description. Save hours of planning time.",
+      color: "white",
     },
     {
       icon: FiTrendingUp,
       title: "Analytics Dashboard",
-      description: "Get real-time insights into your business performance with visual analytics and reports.",
-      color: "white"
+      description:
+        "Get real-time insights into your business performance with visual analytics and reports.",
+      color: "white",
     },
   ];
 
@@ -102,7 +96,8 @@ export default function FeaturesSection() {
             </span>
           </h2>
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
-            Powerful tools designed specifically for freelancers to manage their entire workflow
+            Powerful tools designed specifically for freelancers to manage their
+            entire workflow
           </p>
         </motion.div>
 
@@ -118,16 +113,16 @@ export default function FeaturesSection() {
               className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:border-white/20 hover:bg-white/10"
             >
               <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur"></div>
-              
+
               <div className="relative">
                 <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
                   <feature.icon className="w-6 h-6 text-white" />
                 </div>
-                
+
                 <h3 className="text-xl font-semibold text-white mb-3">
                   {feature.title}
                 </h3>
-                
+
                 <p className="text-white/40 leading-relaxed">
                   {feature.description}
                 </p>
