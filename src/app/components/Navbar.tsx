@@ -29,11 +29,11 @@ type NavUser = {
   imageUrl?: string;
 };
 
-type AppNavbarProps = {
-  user: NavUser;
-};
+// type AppNavbarProps = {
+//   user: NavUser;
+// };
 
-export default function AppNavbar({ user }: AppNavbarProps) {
+export default function AppNavbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
