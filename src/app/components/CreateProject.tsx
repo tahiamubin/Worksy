@@ -53,7 +53,7 @@ const CreateProject = () => {
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-2 bg-white text-black font-semibold rounded-xl px-6 py-2.5 shadow-lg shadow-white/10 transition-all duration-300 hover:scale-[1.02] active:scale-95"
+        className="inline-flex  items-center gap-2 bg-white text-black font-semibold rounded-xl px-6 py-2.5 shadow-lg shadow-white/10 transition-all duration-300 hover:scale-[1.02] active:scale-95"
       >
         
        +
