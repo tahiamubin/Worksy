@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
   Button,
   Description,
@@ -13,6 +14,7 @@ import {
 
 } from "@heroui/react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CgArrangeBack } from "react-icons/cg";
 
@@ -26,13 +28,21 @@ export default function SignInPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+  type SignUpFormValues = {
+    email: string,
+    password: string
+  }
 
 const onSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault()
           setIsSubmitting(true)
           const formData = new FormData(e.currentTarget)
-          const user = Object.fromEntries(formData.entries() as unknown as SignUpFormValues)
-          console.log(user)
+          const user = Object.fromEntries(formData.entries()) as SignUpFormValues
+        //console.log(user)
+        await authClient.signIn.email(
+         user
+        )
+        redirect('/')
   }
 
  

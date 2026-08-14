@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CgArrangeBack } from "react-icons/cg";
-
+import { authClient } from "@/lib/auth-client";
 
 type NavItem = {
   label: string;
@@ -19,21 +19,10 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Projects", href: "/projects", icon: "briefcase" },
   { label: "Tasks", href: "/tasks", icon: "checklist" },
   { label: "Payments", href: "/payments", icon: "credit-card" },
-  { label: "Signup", href: "/signup", icon: "credit-card" },
-
 ];
 
-type NavUser = {
-  name: string;
-  email: string;
-  imageUrl?: string;
-};
-
-// type AppNavbarProps = {
-//   user: NavUser;
-// };
-
 export default function AppNavbar() {
+  const { data: session } = authClient.useSession();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -54,28 +43,33 @@ export default function AppNavbar() {
     pathname === href || pathname?.startsWith(`${href}/`);
 
   const mobileMenuVariants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       height: 0,
-      transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] }
+      transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       height: "auto",
-      transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] }
+      transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
     },
-    exit: { 
-      opacity: 0, 
+    exit: {
+      opacity: 0,
       height: 0,
-      transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] }
-    }
+      transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
+    },
+  };
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    setMenuOpen(false);
   };
 
   return (
-    <header 
+    <header
       className={`sticky top-0 z-40 transition-all duration-300 ${
-        scrolled 
-          ? "bg-black/95 backdrop-blur-xl shadow-2xl shadow-white/5" 
+        scrolled
+          ? "bg-black/95 backdrop-blur-xl shadow-2xl shadow-white/5"
           : "bg-black"
       } border-b border-white/10`}
     >
@@ -89,13 +83,12 @@ export default function AppNavbar() {
           <div className="relative">
             <div className="absolute -inset-1 rounded-full bg-white/20 blur-xl"></div>
             <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-white">
-              <span className="text-lg font-bold text-black"><CgArrangeBack /></span>
+              <span className="text-lg font-bold text-black">
+                <CgArrangeBack />
+              </span>
             </div>
           </div>
-          <Link 
-            href="/dashboard" 
-            className="text-2xl font-bold text-white"
-          >
+          <Link href="/dashboard" className="text-2xl font-bold text-white">
             Worksy
           </Link>
         </motion.div>
@@ -129,53 +122,54 @@ export default function AppNavbar() {
           ))}
         </nav>
 
-        {/* Profile section */}
-        {/* <div className="hidden items-center gap-4 md:flex">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
-            className="hidden text-right sm:block"
-          >
-            <p className="text-sm font-medium text-white">{user.name}</p>
-            <p className="text-xs text-white/40">{user.email}</p>
-          </motion.div>
-          
-          <Link href="/profile" aria-label="Profile settings">
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: -5 }}
-              whileTap={{ scale: 0.95 }}
-              className="relative"
-            >
-              <div className="absolute -inset-1 rounded-full bg-white/20 blur-md"></div>
-              <div className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-white/30 shadow-lg shadow-white/10">
-                {user.imageUrl ? (
-                  <img
-                    src={user.imageUrl}
-                    alt={user.name}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-white text-sm font-bold text-black">
-                    {user.name.charAt(0).toUpperCase()}
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </Link>
+        {/* Desktop auth section */}
+        <div className="hidden items-center gap-3 md:flex">
+          {session?.user ? (
+            <>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+                className="hidden text-right sm:block"
+              >
+                <p className="text-sm font-medium text-white">
+                  {session.user.name}
+                </p>
+                <p className="text-xs text-white/40">{session.user.email}</p>
+              </motion.div>
 
-        
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative group"
-          >
-            <div className="absolute -inset-0.5 rounded-full bg-white/20 blur group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative rounded-full bg-white px-5 py-2 text-sm font-semibold text-black shadow-lg shadow-white/10">
-              Sign up
-            </div>
-          </motion.button>
-        </div> */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleSignOut}
+                className="relative group"
+              >
+                <div className="absolute -inset-0.5 rounded-full bg-white/20 blur group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative rounded-full bg-white px-5 py-2 text-sm font-semibold text-black shadow-lg shadow-white/10">
+                  Sign out
+                </div>
+              </motion.button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/signin"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-white"
+              >
+                Sign in
+              </Link>
+              <Link href="/signup">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black shadow-lg shadow-white/10"
+                >
+                  Sign up
+                </motion.div>
+              </Link>
+            </>
+          )}
+        </div>
 
         {/* Mobile hamburger */}
         <motion.button
@@ -228,34 +222,30 @@ export default function AppNavbar() {
           >
             <div className="space-y-1 px-4 py-6">
               {/* User info card */}
-              {/* <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 rounded-2xl bg-white/5 p-4 border border-white/10 backdrop-blur-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <div className="absolute -inset-1 rounded-full bg-white/20 blur-md"></div>
-                    <div className="relative h-12 w-12 overflow-hidden rounded-full ring-2 ring-white/30">
-                      {user.imageUrl ? (
-                        <img
-                          src={user.imageUrl}
-                          alt={user.name}
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-white text-lg font-bold text-black">
-                          {user.name.charAt(0).toUpperCase()}
-                        </div>
-                      )}
+              {session?.user && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 rounded-2xl bg-white/5 p-4 border border-white/10 backdrop-blur-sm"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <div className="absolute -inset-1 rounded-full bg-white/20 blur-md"></div>
+                      <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white text-lg font-bold text-black ring-2 ring-white/30">
+                        {session.user.name?.charAt(0).toUpperCase()}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-base font-semibold text-white">
+                        {session.user.name}
+                      </p>
+                      <p className="text-sm text-white/40">
+                        {session.user.email}
+                      </p>
                     </div>
                   </div>
-                  <div>
-                    <p className="text-base font-semibold text-white">{user.name}</p>
-                    <p className="text-sm text-white/40">{user.email}</p>
-                  </div>
-                </div>
-              </motion.div> */}
+                </motion.div>
+              )}
 
               {/* Navigation items */}
               {NAV_ITEMS.map((item, i) => (
@@ -275,9 +265,13 @@ export default function AppNavbar() {
                     }`}
                   >
                     <span className="flex items-center gap-3">
-                      <span className={`text-lg ${
-                        isActive(item.href) ? "text-black" : "text-white/30"
-                      }`}>•</span>
+                      <span
+                        className={`text-lg ${
+                          isActive(item.href) ? "text-black" : "text-white/30"
+                        }`}
+                      >
+                        •
+                      </span>
                       {item.label}
                     </span>
                     {isActive(item.href) && (
@@ -293,15 +287,40 @@ export default function AppNavbar() {
                 </motion.div>
               ))}
 
-              {/* Sign up button in mobile */}
-              <motion.button
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="mt-4 w-full rounded-xl bg-white px-4 py-3 text-sm font-semibold text-black shadow-lg shadow-white/10"
-              >
-                Sign up
-              </motion.button>
+              {/* Auth section in mobile */}
+              {session?.user ? (
+                <motion.button
+                  onClick={handleSignOut}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="mt-4 w-full rounded-xl bg-white px-4 py-3 text-sm font-semibold text-black shadow-lg shadow-white/10"
+                >
+                  Sign out
+                </motion.button>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="mt-4 flex flex-col gap-2"
+                >
+                  <Link
+                    href="/signin"
+                    onClick={() => setMenuOpen(false)}
+                    className="rounded-xl px-4 py-3 text-center text-sm font-medium text-white/60 hover:bg-white/5 hover:text-white"
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/signup"
+                    onClick={() => setMenuOpen(false)}
+                    className="rounded-xl bg-white px-4 py-3 text-center text-sm font-semibold text-black shadow-lg shadow-white/10"
+                  >
+                    Sign up
+                  </Link>
+                </motion.div>
+              )}
             </div>
           </motion.nav>
         )}
