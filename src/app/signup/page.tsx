@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
   Button,
   Description,
@@ -8,15 +9,13 @@ import {
   Form,
   Input,
   Label,
-
   TextField,
-
 } from "@heroui/react";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CgArrangeBack } from "react-icons/cg";
 
 import { FcGoogle } from "react-icons/fc";
-
 
 export default function SignUpPage() {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -26,13 +25,22 @@ export default function SignUpPage() {
     setMounted(true);
   }, []);
 
-  const onSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault()
-          setIsSubmitting(true)
-          const formData = new FormData(e.currentTarget)
-          const user = Object.fromEntries(formData.entries() as unknown as SignUpFormValues)
-          console.log(user)
-  }
+  type SignUpFormValues = {
+    name: string;
+    password: string;
+    email: string;
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+    const user = Object.fromEntries(formData.entries()) as SignUpFormValues;
+
+    //console.log(user)
+    await authClient.signUp.email(user);
+    redirect("/");
+  };
 
   return (
     <section className="relative w-full min-h-screen overflow-hidden bg-black">
@@ -142,8 +150,6 @@ export default function SignUpPage() {
                     />
                     <FieldError className="text-red-400" />
                   </TextField>
-
-                
                 </Fieldset.Group>
 
                 <Button
