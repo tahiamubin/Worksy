@@ -1,6 +1,7 @@
 "use client";
 
 import { createProjects } from "@/lib/actions/projects";
+import { getUser } from "@/lib/api/users";
 
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -30,8 +31,9 @@ const CreateProject = () => {
 
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData) as unknown as ProjectFormData;
+    const user = await getUser()
 
-    await createProjects(data);
+    await createProjects({...data, userId: user.id});
     toast.success("Project created successfully!");
   };
 

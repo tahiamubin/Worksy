@@ -8,5 +8,5 @@ export const createProjects = async <T>(data: T) => {
     },
     body: JSON.stringify(data),
   });
-  return res.json() as Promise<T & { _id: string }>;
+  return res.json() as Promise<T & { _id: string}>;
 };
