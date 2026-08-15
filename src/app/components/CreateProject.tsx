@@ -1,7 +1,9 @@
 "use client";
 
-import { Briefcase } from "@gravity-ui/icons";
+import { createProjects } from "@/lib/actions/projects";
+
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 // Shape of the project data
 interface ProjectFormData {
@@ -15,15 +17,6 @@ interface ProjectFormData {
   status: string;
 }
 
-// Mock clients data
-const MOCK_CLIENTS = [
-  { id: "1", name: "Google" },
-  { id: "2", name: "Microsoft" },
-  { id: "3", name: "Amazon" },
-  { id: "4", name: "Apple" },
-  { id: "5", name: "Meta" },
-];
-
 const CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CAD", "AUD"];
 const STATUSES = ["Planning", "In Progress", "On Hold", "Completed"];
 
@@ -31,21 +24,15 @@ const CreateProject = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData) as unknown as ProjectFormData;
 
-    console.log("Project Data:", data);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsOpen(false);
-      alert("Project created successfully!");
-    }, 1500);
+    await createProjects(data);
+    toast.success("Project created successfully!");
   };
 
   return (
@@ -55,8 +42,7 @@ const CreateProject = () => {
         onClick={() => setIsOpen(true)}
         className="inline-flex  items-center gap-2 bg-white text-black font-semibold rounded-xl px-6 py-2.5 shadow-lg shadow-white/10 transition-all duration-300 hover:scale-[1.02] active:scale-95"
       >
-        
-       +
+        +
       </button>
 
       {/* Custom Modal */}
@@ -75,10 +61,7 @@ const CreateProject = () => {
             {/* Header */}
             <div className="p-6 pb-0">
               <div className="flex items-center gap-3 mb-4">
-                
-                <h2 className="text-2xl font-bold text-white">
-                  +
-                </h2>
+                <h2 className="text-2xl font-bold text-white">+</h2>
               </div>
               <p className="text-sm text-white/40">
                 Fill in the project details below. All fields marked with * are
