@@ -11,7 +11,7 @@ interface Project {
   status: string;
 }
 
-export const getProjectById = async (id: string): Promise<Project> => {
-  const res = await fetch(`${baseURL}/project/${id}`);
-  res.json() as Promise<Project>;
+export const getProject = async ()=> {
+  const res = await fetch(`${baseURL}/project`);
+  return res.json() as Promise<Project>;
 };
