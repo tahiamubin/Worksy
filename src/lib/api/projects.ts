@@ -8,10 +8,10 @@ interface Project {
   currency: string;
   startDate: string;
   deadline: string;
-  status: string;
+  status: "Planning" | "In Progress" | "On Hold" | "Completed";
 }
 
 export const getProject = async ()=> {
   const res = await fetch(`${baseURL}/project`);
-  return res.json() as Promise<Project>;
+  return res.json() as Promise<Project[]>;
 };
