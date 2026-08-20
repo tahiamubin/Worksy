@@ -9,7 +9,8 @@ import { JSX } from "react/jsx-runtime";
 const page = async (): Promise<JSX.Element> => {
   const user = await getUser();
   console.log(user!.id);
-  const projects = await getProject();
+  const getProjects = await getProject();
+  const projects = getProjects.filter(p => p.userId === user!.id)
   console.log(projects);
 
   return (

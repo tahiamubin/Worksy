@@ -9,6 +9,7 @@ interface Project {
   startDate: string;
   deadline: string;
   status: "Planning" | "In Progress" | "On Hold" | "Completed";
+  userId: string
 }
 
 export const getProject = async ()=> {
