@@ -8,10 +8,10 @@ import { JSX } from "react/jsx-runtime";
 
 const page = async (): Promise<JSX.Element> => {
   const user = await getUser();
-  console.log(user!.id);
+ // console.log(user!.id);
   const getProjects = await getProject();
   const projects = getProjects.filter(p => p.userId === user!.id)
-  console.log(projects);
+  //console.log(projects);
 
   return (
     <div className="min-h-screen bg-black p-6">

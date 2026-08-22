@@ -92,12 +92,7 @@ const ProjectCard = ({ project }: ProjectCardProps): JSX.Element => {
             <span className="group-hover/btn:text-blue-400 transition-colors">Update</span>
           </span>
         </button>
-        <button className="flex-1 bg-white/5 text-white text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-300 border border-white/5 hover:border-yellow-500/30 group/btn">
-          <span className="flex items-center justify-center gap-1">
-            <span>📦</span>
-            <span className="group-hover/btn:text-yellow-400 transition-colors">Archive</span>
-          </span>
-        </button>
+       
         <button className="flex-1 bg-white/5 text-white text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-300 border border-white/5 hover:border-red-500/30 group/btn">
           <span className="flex items-center justify-center gap-1">
             <span>🗑️</span>
