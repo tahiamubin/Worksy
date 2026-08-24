@@ -1,6 +1,8 @@
+import { Project } from "../types/project";
+
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const createProjects = async <T>(data: T) => {
+export const createProjects = async (data: Project) => {
   const res = await fetch(`${baseURL}/project`, {
     method: "POST",
     headers: {
@@ -8,5 +10,5 @@ export const createProjects = async <T>(data: T) => {
     },
     body: JSON.stringify(data),
   });
-  return res.json() as Promise<T & { _id: string}>;
+  return res.json();
 };

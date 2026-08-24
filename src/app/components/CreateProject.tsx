@@ -11,11 +11,11 @@ interface ProjectFormData {
   name: string;
   description: string;
   client: string;
-  budget: string;
+  budget: number;
   currency: string;
   startDate: string;
   deadline: string;
-  status: string;
+  status: "Planning" | "In Progress" | "On Hold" | "Completed";
 }
 
 const CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CAD", "AUD"];
@@ -31,9 +31,14 @@ const CreateProject = () => {
 
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData) as unknown as ProjectFormData;
-    const user = await getUser()
+    const user = await getUser();
+    if (!user) {
+      toast.error("You must be logged in");
+      setIsSubmitting(false);
+      return;
+    }
 
-    await createProjects({...data, userId: user.id});
+    await createProjects({ ...data, userId: user.id });
     toast.success("Project created successfully!");
   };
 
