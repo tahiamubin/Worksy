@@ -11,7 +11,7 @@ interface ProjectFormData {
   name: string;
   description: string;
   client: string;
-  budget: string;
+  budget: number;
   currency: string;
   startDate: string;
   deadline: string;
